@@ -1,5 +1,33 @@
 @extends('frontEnd.layouts.master') @section('title', 'Customer Checkout') @push('css')
 <link rel="stylesheet" href="{{ asset('public/frontEnd/css/select2.min.css') }}" />
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let items = [
+        @foreach(Cart::instance('shopping')->content() as $item)
+            {
+                id: "{{ $item->id }}",
+                name: "{{ $item->name }}",
+                quantity: {{ $item->qty }},
+                price: {{ $item->price }},
+            },
+        @endforeach
+    ];
+
+    // Only trigger if there is at least 1 item
+    if(items.length > 0) {
+        fbq('track', 'InitiateCheckout', {
+            content_name: 'Checkout Page',
+            content_ids: items.map(i => i.id),
+            content_type: 'product',
+            value: items.reduce((acc, i) => acc + (i.price * i.quantity), 0),
+            currency: 'BDT'
+        });
+    } else {
+        console.warn('Cart empty, InitiateCheckout not fired.');
+    }
+});
+</script>
+
 @endpush @section('content')
 <section class="chheckout-section">
     @php
@@ -255,6 +283,7 @@
         });
     });
 </script>
+
 <script type = "text/javascript">
     dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
     dataLayer.push({

@@ -25,8 +25,19 @@
 <meta property="og:image" content="{{asset($childcategory->image)}}" />
 <meta property="og:description" content="{{ $childcategory->meta_description}}" />
 <meta property="og:site_name" content="{{$childcategory->childcategoryName}}" />
+<script>
+  fbq('track', 'ViewContent', {
+    content_name: "{{ $product->name }}",
+    content_ids: ["{{ $product->id }}"],
+    content_type: 'product',
+    value: {{ $product->new_price }},
+    currency: 'USD'
+  });
+</script>
+
 @endpush
 @section('content')
+
 <section class="product-section">
     <div class="container">
         <div class="sorting-section">

@@ -107,6 +107,24 @@
 </section>
 @endsection
 @push('script')
+@if(isset($order) && $order->orderdetails->count() > 0)
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    fbq('track', 'Purchase', {
+        content_name: 'Order #{{ $order->id }}',
+        content_ids: [
+            @foreach($order->orderdetails as $item)
+                "{{ $item->product_id }}",
+            @endforeach
+        ],
+        content_type: 'product',
+        value: {{ $order->amount ?? 0 }},
+        currency: 'BDT'
+    });
+});
+</script>
+@endif
+
 <script src="{{asset('frontEnd/')}}/js/parsley.min.js"></script>
 <script src="{{asset('frontEnd/')}}/js/form-validation.init.js"></script>
 @endpush

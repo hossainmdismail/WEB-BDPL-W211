@@ -70,3 +70,12 @@
     });
 </script>
 <!-- cart js start -->
+<script>
+  fbq('track', 'ViewContent', {
+    content_name: "{{ $product->name }}",
+    content_ids: ["{{ $product->id }}"],
+    content_type: 'product',
+    value: {{ $product->new_price }},
+    currency: 'USD'
+  });
+</script>
