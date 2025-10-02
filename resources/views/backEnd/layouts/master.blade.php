@@ -578,7 +578,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 text-end">&copy; {{ $generalsetting->name }} <a
-                                href="https://wa.me/8801738154732" target="_blank">Z5Tech</a></div>
+                                href="https://wa.me/+8801408725439" target="_blank">Anils World</a></div>
                     </div>
                 </div>
             </footer>
