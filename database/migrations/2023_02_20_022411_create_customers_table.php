@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('area')->nullable();
             $table->string('address')->nullable();
             $table->integer('verify')->nullable();
-            $table->string('image')->default('public/uploads/default/user.png');
+            $table->string('image')->default('uploads/default/user.png');
             $table->string('password');
             $table->string('remember_token')->nullable();
             $table->string('status')->length('55');

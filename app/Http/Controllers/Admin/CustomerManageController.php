@@ -56,7 +56,7 @@ class CustomerManageController extends Controller
             $name = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name);
             $name = strtolower(preg_replace('/\s+/', '-', $name));
             $uploadPath = 'uploads/customer/';
-            $imageUrl = $uploadpath.$name;
+            $imageUrl = $uploadPath.$name;
             $img=Image::make($image->getRealPath());
             $img->encode('webp', 90);
             $width = 100;

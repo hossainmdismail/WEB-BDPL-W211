@@ -39,7 +39,7 @@ class CampaignController extends Controller
         $name1 =  time().'-'.$image1->getClientOriginalName();
         $name1 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name1);
         $name1 = strtolower(preg_replace('/\s+/', '-', $name1));
-        $uploadpath1 = 'public/uploads/campaign/';
+        $uploadpath1 = 'uploads/campaign/';
         $image1Url = $uploadpath1.$name1;
         $img1=Image::make($image1->getRealPath());
         $img1->encode('webp', 90);
@@ -57,7 +57,7 @@ class CampaignController extends Controller
             $name2 =  time().'-'.$image2->getClientOriginalName();
             $name2 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name2);
             $name2 = strtolower(preg_replace('/\s+/', '-', $name2));
-            $uploadpath2 = 'public/uploads/campaign/';
+            $uploadpath2 = 'uploads/campaign/';
             $image2Url = $uploadpath2.$name2;
             $img2=Image::make($image2->getRealPath());
             $img2->encode('webp', 90);
@@ -76,7 +76,7 @@ class CampaignController extends Controller
             $name3 =  time().'-'.$image3->getClientOriginalName();
             $name3 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name3);
             $name3 = strtolower(preg_replace('/\s+/', '-', $name3));
-            $uploadpath3 = 'public/uploads/campaign/';
+            $uploadpath3 = 'uploads/campaign/';
             $image3Url = $uploadpath3.$name3;
             $img3=Image::make($image3->getRealPath());
             $img3->encode('webp', 90);
@@ -139,7 +139,7 @@ class CampaignController extends Controller
             $name1 =  time().'-'.$image_one->getClientOriginalName();
             $name1 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp', $name1);
             $name1 = strtolower(preg_replace('/\s+/', '-', $name1));
-            $uploadpath1 = 'public/uploads/campaign/';
+            $uploadpath1 = 'uploads/campaign/';
             $imageUrl1 = $uploadpath1.$name1;
             $img1 = Image::make($image_one->getRealPath());
             $img1->encode('webp', 90);
@@ -163,7 +163,7 @@ class CampaignController extends Controller
             $name2 =  time().'-'.$image_two->getClientOriginalName();
             $name2 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name2);
             $name2 = strtolower(preg_replace('/\s+/', '-', $name2));
-            $uploadpath2 = 'public/uploads/campaign/';
+            $uploadpath2 = 'uploads/campaign/';
             $imageUrl2 = $uploadpath2.$name2;
             $img2=Image::make($image_two->getRealPath());
             $img2->encode('webp', 90);
@@ -187,7 +187,7 @@ class CampaignController extends Controller
             $name3 =  time().'-'.$image_three->getClientOriginalName();
             $name3 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name3);
             $name3 = strtolower(preg_replace('/\s+/', '-', $name3));
-            $uploadpath3 = 'public/uploads/campaign/';
+            $uploadpath3 = 'uploads/campaign/';
             $imageUrl3 = $uploadpath3.$name3;
             $img3 = Image::make($image_three->getRealPath());
             $img3->encode('webp', 90);

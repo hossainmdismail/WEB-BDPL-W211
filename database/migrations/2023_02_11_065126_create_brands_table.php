@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('name_bn');
             $table->string('slug');
-            $table->string('image')->default('public/uploads/category/default.png');
+            $table->string('image')->default('uploads/category/default.png');
             $table->tinyInteger('status');
             $table->timestamps();
         });
