@@ -8,7 +8,7 @@ use App\Models\ShippingCharge;
 use Toastr;
 
 class ShippingChargeController extends Controller
-{    
+{
     function __construct()
     {
         $this->middleware('permission:shipping-list|shipping-create|shipping-edit|shipping-delete', ['only' => ['index', 'store']]);
@@ -26,18 +26,39 @@ class ShippingChargeController extends Controller
     {
         return view('backEnd.shippingcharge.create');
     }
+    // public function store(Request $request)
+    // {
+    //     dd($request->all());
+    //     $this->validate($request, [
+    //         'name' => 'required',
+    //         'status' => 'required',
+    //     ]);
+
+    //     $input = $request->all();
+    //     $input['status'] = $request->status ? 1 : 0;
+    //     ShippingCharge::create($input);
+    //     Toastr::success('Success', 'Data insert successfully');
+    //     return redirect()->route('shippingcharges.index');
+    // }
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'status' => 'required',
-        ]);        
+        // ✅ Validate input
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'amount' => 'required|numeric|min:0',
+        ]);
 
-        $input = $request->all();
-        $input['status'] = $request->status?1:0;
-        // dd($input);
-        ShippingCharge::create($input);
-        Toastr::success('Success', 'Data insert successfully');
+        // ✅ Create the record
+        ShippingCharge::create([
+            'name' => $request->name,
+            'amount' => $request->amount,
+            'status' => $request->has('status') ? 1 : 0,
+        ]);
+
+        // ✅ Success message
+        Toastr::success('Success', 'Data inserted successfully');
+
+        // ✅ Redirect
         return redirect()->route('shippingcharges.index');
     }
 
@@ -55,8 +76,8 @@ class ShippingChargeController extends Controller
         ]);
         $update_data = ShippingCharge::find($request->id);
 
-        $input = $request->all();       
-        $input['status'] = $request->status?1:0;
+        $input = $request->all();
+        $input['status'] = $request->status ? 1 : 0;
         $update_data->update($input);
 
         Toastr::success('Success', 'Data update successfully');
@@ -86,6 +107,7 @@ class ShippingChargeController extends Controller
         $delete_data = ShippingCharge::find($request->hidden_id);
         $delete_data->delete();
         Toastr::success('Success', 'Data delete successfully');
+
         return redirect()->back();
     }
 }
