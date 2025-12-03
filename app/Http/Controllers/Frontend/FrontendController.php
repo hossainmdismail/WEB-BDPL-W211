@@ -149,7 +149,7 @@ class FrontendController extends Controller
         } else {
             $products = $products->latest();
         }
-        
+
         $min_price = $products->min('new_price');
         $max_price = $products->max('new_price');
         if($request->min_price && $request->max_price){
@@ -199,7 +199,7 @@ class FrontendController extends Controller
         } else {
             $products = $products->latest();
         }
-        
+
         $min_price = $products->min('new_price');
         $max_price = $products->max('new_price');
         if($request->min_price && $request->max_price){

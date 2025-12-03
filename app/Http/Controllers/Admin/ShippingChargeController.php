@@ -36,7 +36,7 @@ class ShippingChargeController extends Controller
 
     //     $input = $request->all();
     //     $input['status'] = $request->status ? 1 : 0;
-    //     ShippingCharge::create($input);
+    //     ShippingCharge::create($input);π
     //     Toastr::success('Success', 'Data insert successfully');
     //     return redirect()->route('shippingcharges.index');
     // }

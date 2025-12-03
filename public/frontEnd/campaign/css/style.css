@@ -249,10 +249,9 @@ button.order_place {
 .banner_t h2 {
     transform: translateZ(0);
     padding: 15px 10px 10px 10px;
-    padding: 5px 5px 5px 5px;
     border-radius: 6px;
     background: #000;
-    opacity: 0.5;
+    opacity: 1;
     width: 60%;
     color: #3bff1f;
     font-size: 37px;
@@ -263,7 +262,7 @@ button.order_place {
     -webkit-text-stroke-color: #000;
     stroke: #000;
     text-shadow: 7px 0px 12px rgba(0,0,0,0.3);
-    text-align: center;
+    text-align: start;
     letter-spacing: 1px;
     margin-bottom: 30px;
 }

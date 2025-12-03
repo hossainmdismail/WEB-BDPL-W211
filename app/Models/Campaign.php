@@ -9,6 +9,10 @@ class Campaign extends Model
 {
     use HasFactory;
     protected $guarded = [];
+        protected $fillable = [
+        'campaign_id',
+        'image',
+    ];
 
     public function product(){
         return $this->hasOne(Product::class, 'id','product_id')->select('id','name','slug','old_price','new_price');

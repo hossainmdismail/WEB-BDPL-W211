@@ -24,94 +24,189 @@ class CampaignController extends Controller
         $products = Product::where(['status'=>1])->select('id','name','status')->get();
         return view('backEnd.campaign.create',compact('products'));
     }
+    // public function store(Request $request)
+    // {
+    //     // dd($request->all());
+    //     $this->validate($request, [
+    //         'short_description' => 'required',
+    //         'description' => 'required',
+    //         'name' => 'required',
+    //         'status' => 'required',
+    //     ]);
+
+    //     $input = $request->except(['files']);
+    //     // image one
+    //     $image1 = $request->file('image_one');
+    //     $name1 =  time().'-'.$image1->getClientOriginalName();
+    //     $name1 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name1);
+    //     $name1 = strtolower(preg_replace('/\s+/', '-', $name1));
+    //     $uploadpath1 = 'uploads/campaign/';
+    //     $image1Url = $uploadpath1.$name1;
+    //     $img1=Image::make($image1->getRealPath());
+    //     $img1->encode('webp', 90);
+    //     $width1 = '';
+    //     $height1 = '';
+    //     $img1->height() > $img1->width() ? $width1=null : $height1=null;
+    //     $img1->resize($width1, $height1, function ($constraint) {
+    //         $constraint->aspectRatio();
+    //     });
+    //     $img1->save($image1Url);
+
+
+    //     // image two
+    //     $image2 = $request->file('image_two');
+    //     if($image2){
+    //         $name2 =  time().'-'.$image2->getClientOriginalName();
+    //         $name2 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name2);
+    //         $name2 = strtolower(preg_replace('/\s+/', '-', $name2));
+    //         $uploadpath2 = 'uploads/campaign/';
+    //         $image2Url = $uploadpath2.$name2;
+    //         $img2=Image::make($image2->getRealPath());
+    //         $img2->encode('webp', 90);
+    //         $width2 = '';
+    //         $height2 = '';
+    //         $img2->height() > $img2->width() ? $width2=null : $height2=null;
+    //         $img2->resize($width2, $height2, function ($constraint) {
+    //             $constraint->aspectRatio();
+    //         });
+    //         $img2->save($image2Url);
+    //     }
+
+    //     // image three
+    //     $image3 = $request->file('image_three');
+    //     if($image3){
+    //         $name3 =  time().'-'.$image3->getClientOriginalName();
+    //         $name3 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name3);
+    //         $name3 = strtolower(preg_replace('/\s+/', '-', $name3));
+    //         $uploadpath3 = 'uploads/campaign/';
+    //         $image3Url = $uploadpath3.$name3;
+    //         $img3=Image::make($image3->getRealPath());
+    //         $img3->encode('webp', 90);
+    //         $width3 = '';
+    //         $height3 = '';
+    //         $img3->height() > $img3->width() ? $width3=null : $height3=null;
+    //         $img3->resize($width3, $height3, function ($constraint) {
+    //             $constraint->aspectRatio();
+    //         });
+    //         $img3->save($image3Url);
+    //     }
+
+    //     dd($request->all());
+
+    //     $input['slug'] = strtolower(Str::slug($request->name));
+    //     // $campaign = Campaign::create($input);
+
+    //     $images = $request->file('image');
+    //     if($images){
+    //         foreach ($images as $key => $image) {
+    //             $name =  time().'-'.$image->getClientOriginalName();
+    //             $name = strtolower(preg_replace('/\s+/', '-', $name));
+    //             $uploadPath = 'uploads/campaign/';
+    //             $image->move($uploadPath,$name);
+    //             $imageUrl =$uploadPath.$name;
+
+    //             $pimage             = new CampaignReview();
+    //             $pimage->campaign_id = $campaign->id;
+    //             $pimage->image      = $imageUrl;
+    //             $pimage->save();
+    //         }
+
+    //     }
+
+    //     Toastr::success('Success','Data insert successfully');
+    //     return redirect()->route('campaign.index');
+    // }
     public function store(Request $request)
-    {
-        $this->validate($request, [
-            'short_description' => 'required',
-            'description' => 'required',
-            'name' => 'required',
-            'status' => 'required',
-        ]);
+{
+    $this->validate($request, [
+        'short_description' => 'required',
+        'description'       => 'required',
+        'name'              => 'required',
+        'status'            => 'required',
+        'image_one'         => 'required|image|mimes:jpeg,png,jpg,webp',
+        'banner'            => 'required|image|mimes:jpeg,png,jpg,webp',
+        'image'             => 'nullable|array',
+        'image.*'           => 'image|mimes:jpeg,png,jpg,webp',
+    ]);
 
-        $input = $request->except(['files']);
-        // image one
-        $image1 = $request->file('image_one');
-        $name1 =  time().'-'.$image1->getClientOriginalName();
-        $name1 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name1);
-        $name1 = strtolower(preg_replace('/\s+/', '-', $name1));
-        $uploadpath1 = 'uploads/campaign/';
-        $image1Url = $uploadpath1.$name1;
-        $img1=Image::make($image1->getRealPath());
-        $img1->encode('webp', 90);
-        $width1 = '';
-        $height1 = '';
-        $img1->height() > $img1->width() ? $width1=null : $height1=null;
-        $img1->resize($width1, $height1, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        $img1->save($image1Url);
+    // Upload main images
+    $uploadPath = 'uploads/campaign/';
 
-        // image two
-        $image2 = $request->file('image_two');
-        if($image2){
-            $name2 =  time().'-'.$image2->getClientOriginalName();
-            $name2 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name2);
-            $name2 = strtolower(preg_replace('/\s+/', '-', $name2));
-            $uploadpath2 = 'uploads/campaign/';
-            $image2Url = $uploadpath2.$name2;
-            $img2=Image::make($image2->getRealPath());
-            $img2->encode('webp', 90);
-            $width2 = '';
-            $height2 = '';
-            $img2->height() > $img2->width() ? $width2=null : $height2=null;
-            $img2->resize($width2, $height2, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img2->save($image2Url);
-        }
+    $imageOne      = $request->file('image_one');
+    $imageOneName  = strtolower(preg_replace('/\s+/', '-', time() . '-' . preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp', $imageOne->getClientOriginalName())));
+    $imageOnePath  = $uploadPath . $imageOneName;
+    $img1 = Image::make($imageOne->getRealPath())->encode('webp', 90);
+    $img1->height() > $img1->width() ? $img1->resize(null, 800, function($constraint){ $constraint->aspectRatio(); })
+                                     : $img1->resize(800, null, function($constraint){ $constraint->aspectRatio(); });
+    $img1->save($imageOnePath);
 
-        // image three
-        $image3 = $request->file('image_three');
-        if($image3){
-            $name3 =  time().'-'.$image3->getClientOriginalName();
-            $name3 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name3);
-            $name3 = strtolower(preg_replace('/\s+/', '-', $name3));
-            $uploadpath3 = 'uploads/campaign/';
-            $image3Url = $uploadpath3.$name3;
-            $img3=Image::make($image3->getRealPath());
-            $img3->encode('webp', 90);
-            $width3 = '';
-            $height3 = '';
-            $img3->height() > $img3->width() ? $width3=null : $height3=null;
-            $img3->resize($width3, $height3, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img3->save($image3Url);
-        }
+    // Optional images
+    $imageTwoPath   = null;
+    $imageThreePath = null;
 
-        $input['slug'] = strtolower(Str::slug($request->name));
-        $campaign = Campaign::create($input);
-
-        $images = $request->file('image');
-        if($images){
-            foreach ($images as $key => $image) {
-                $name =  time().'-'.$image->getClientOriginalName();
-                $name = strtolower(preg_replace('/\s+/', '-', $name));
-                $uploadPath = 'uploads/campaign/';
-                $image->move($uploadPath,$name);
-                $imageUrl =$uploadPath.$name;
-
-                $pimage             = new CampaignReview();
-                $pimage->campaign_id = $campaign->id;
-                $pimage->image      = $imageUrl;
-                $pimage->save();
-            }
-
-        }
-
-        Toastr::success('Success','Data insert successfully');
-        return redirect()->route('campaign.index');
+    if ($request->hasFile('image_two')) {
+        $imageTwo      = $request->file('image_two');
+        $imageTwoName  = strtolower(preg_replace('/\s+/', '-', time() . '-' . preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp', $imageTwo->getClientOriginalName())));
+        $imageTwoPath  = $uploadPath . $imageTwoName;
+        $img2 = Image::make($imageTwo->getRealPath())->encode('webp', 90);
+        $img2->height() > $img2->width() ? $img2->resize(null, 800, function($constraint){ $constraint->aspectRatio(); })
+                                         : $img2->resize(800, null, function($constraint){ $constraint->aspectRatio(); });
+        $img2->save($imageTwoPath);
     }
+
+    if ($request->hasFile('image_three')) {
+        $imageThree      = $request->file('image_three');
+        $imageThreeName  = strtolower(preg_replace('/\s+/', '-', time() . '-' . preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp', $imageThree->getClientOriginalName())));
+        $imageThreePath  = $uploadPath . $imageThreeName;
+        $img3 = Image::make($imageThree->getRealPath())->encode('webp', 90);
+        $img3->height() > $img3->width() ? $img3->resize(null, 800, function($constraint){ $constraint->aspectRatio(); })
+                                         : $img3->resize(800, null, function($constraint){ $constraint->aspectRatio(); });
+        $img3->save($imageThreePath);
+    }
+
+    // Upload banner
+    $bannerPath = null;
+    if ($request->hasFile('banner')) {
+        $banner      = $request->file('banner');
+        $bannerName  = strtolower(preg_replace('/\s+/', '-', time() . '-' . preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp', $banner->getClientOriginalName())));
+        $bannerPath  = $uploadPath . $bannerName;
+        $imgB = Image::make($banner->getRealPath())->encode('webp', 90);
+        $imgB->resize(1200, null, function($constraint){ $constraint->aspectRatio(); });
+        $imgB->save($bannerPath);
+    }
+
+    // Create campaign manually
+    $campaign = new Campaign();
+    $campaign->name              = $request->name;
+    $campaign->slug              = Str::slug($request->name);
+    $campaign->product_id        = $request->product_id; // ← add this
+    $campaign->short_description = $request->short_description;
+    $campaign->description       = $request->description;
+    $campaign->review            = $request->review;
+    $campaign->status            = $request->status;
+    $campaign->image_one         = $imageOnePath;
+    $campaign->image_two         = $imageTwoPath;
+    $campaign->image_three       = $imageThreePath;
+    $campaign->save();
+
+    // Handle multiple review images
+    if ($request->hasFile('image')) {
+        foreach ($request->file('image') as $image) {
+            $imageName = strtolower(preg_replace('/\s+/', '-', time() . '-' . $image->getClientOriginalName()));
+            $imagePath = $uploadPath . $imageName;
+            $image->move($uploadPath, $imageName);
+
+            CampaignReview::create([
+                'campaign_id' => $campaign->id,
+                'image'       => $imagePath,
+            ]);
+        }
+    }
+
+    Toastr::success('Success', 'Data insert successfully');
+    return redirect()->route('campaign.index');
+}
+
 
     public function edit($id)
     {

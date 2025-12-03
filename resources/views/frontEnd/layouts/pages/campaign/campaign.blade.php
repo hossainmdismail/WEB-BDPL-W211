@@ -1,3 +1,8 @@
+@php
+    $url = $product->pro_video;
+    preg_match('/(?:youtu.be\/|v=)([^&\n?#]+)/', $url, $matches);
+    $videoId = $matches[1] ?? null;
+@endphp
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -6,18 +11,18 @@
         <title>{{ $generalsetting->name }}</title>
         <link rel="shortcut icon" href="{{asset($generalsetting->favicon)}}" type="image/x-icon" />
         <!-- fot awesome -->
-        <link rel="stylesheet" href="{{ asset('public/frontEnd/campaign/css') }}/all.css" />
+        <link rel="stylesheet" href="{{ asset('frontEnd/campaign/css') }}/all.css" />
         <!-- core css -->
-        <link rel="stylesheet" href="{{ asset('public/frontEnd/campaign/css') }}/bootstrap.min.css" />
-        <link rel="stylesheet" href="{{ asset('public/frontEnd/campaign/css') }}/animate.css" />
+        <link rel="stylesheet" href="{{ asset('frontEnd/campaign/css') }}/bootstrap.min.css" />
+        <link rel="stylesheet" href="{{ asset('frontEnd/campaign/css') }}/animate.css" />
         <!-- owl carousel -->
-        <link rel="stylesheet" href="{{ asset('public/frontEnd/campaign/css') }}/owl.theme.default.css" />
-        <link rel="stylesheet" href="{{ asset('public/frontEnd/campaign/css') }}/owl.carousel.min.css" />
+        <link rel="stylesheet" href="{{ asset('frontEnd/campaign/css') }}/owl.theme.default.css" />
+        <link rel="stylesheet" href="{{ asset('frontEnd/campaign/css') }}/owl.carousel.min.css" />
         <!-- owl carousel -->
-        <link rel="stylesheet" href="{{ asset('public/frontEnd/campaign/css') }}/select2.min.css" />
+        <link rel="stylesheet" href="{{ asset('frontEnd/campaign/css') }}/select2.min.css" />
         <!-- common css -->
-        <link rel="stylesheet" href="{{ asset('public/frontEnd/campaign/css') }}/style.css" />
-        <link rel="stylesheet" href="{{ asset('public/frontEnd/campaign/css') }}/responsive.css" />
+        <link rel="stylesheet" href="{{ asset('frontEnd/campaign/css') }}/style.css" />
+        <link rel="stylesheet" href="{{ asset('frontEnd/campaign/css') }}/responsive.css" />
         @foreach($pixels as $pixel)
         <!-- Facebook Pixel Code -->
         <script>
@@ -77,9 +82,9 @@
                         <div class="campaign_image">
                             <div class="campaign_item">
                                 <div class="banner_t">
-                                    <h2>ড্রাই ফ্রুটের অনন্য স্বাদ আর ন্যাচারাল হানির পুষ্টিকর গুন এখন এক জায়গায় </h2>
-                                    <a href="#order_form" class="cam_order_now" id="cam_order_now"><i class="fa-solid fa-cart-shopping"></i> অর্ডার করুন </a>
-                                    <p class="megaoffer_btn">মেগা অফার 1000 Tk টাকা</p>
+                                    <h2>{{ $campaign_data->name }}</h2>
+                                    <a href="#order_form" class="cam_order_now" id="cam_order_now"> অর্ডার করুন </a>
+                                    <p class="megaoffer_btn">মেগা অফার {{ $product->new_price }} টাকা</p>
                                 </div>
                             </div>
                         </div>
@@ -93,12 +98,21 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="camp_vid">
-                            <iframe width="853" height="480" src="https://www.youtube.com/embed/tgvXXbONtQw" title="মিক্সড মাসালা ড্রাই ফ্রুটস/মধুময় বাদাম মিক্সড/ Mixed Dry Fruits/Honey Nuts Recipe" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+                            @if($videoId)
+                            <iframe
+                                width="853"
+                                height="480"
+                                src="https://www.youtube.com/embed/{{ $videoId }}"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                            @endif
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="ord_btn">
-                            <a href="#order_form" class="cam_order_now" id="cam_order_now"> অর্ডার করতে ক্লিক করুন <i class="fa-solid fa-hand-point-right"></i> </a>
+                            <a href="#order_form" class="cam_order_now" id="cam_order_now"> অর্ডার করতে ক্লিক করুন </a>
                         </div>
                     </div>
                 </div>
@@ -190,7 +204,7 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="ord_btn">
-                                    <a href="#order_form" class="cam_order_now" id="cam_order_now"> অর্ডার করতে ক্লিক করুন <i class="fa-solid fa-hand-point-right"></i> </a>
+                                    <a href="#order_form" class="cam_order_now" id="cam_order_now"> অর্ডার করতে ক্লিক করুন </a>
                                 </div>
                             </div>
                         </div>
@@ -259,7 +273,7 @@
                            </div>
                             <div class="col-sm-12">
                                 <div class="ord_btn">
-                                    <a href="#order_form" class="cam_order_now" id="cam_order_now"> অর্ডার করতে ক্লিক করুন <i class="fa-solid fa-hand-point-right"></i> </a>
+                                    <a href="#order_form" class="cam_order_now" id="cam_order_now"> অর্ডার করতে ক্লিক করুন </a>
                                 </div>
                             </div>
                         </div>

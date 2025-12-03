@@ -258,6 +258,7 @@ class CustomerController extends Controller
        return view('frontEnd.layouts.customer.checkout',compact('shippingcharge', 'bkash_gateway', 'shurjopay_gateway'));
     }
     public function order_save(Request $request){
+        dd($request->all());
         $this->validate($request,[
             'name'=>'required',
             'phone'=>'required',
