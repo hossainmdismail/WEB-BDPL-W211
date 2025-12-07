@@ -104,6 +104,7 @@ Route::group(['prefix'=>'customer','namespace'=>'Frontend', 'middleware' => ['ip
     Route::post('/forgot-password/resendotp', [CustomerController::class, 'forgot_resend'])->name('customer.forgot.resendotp');
     Route::get('/checkout', [CustomerController::class, 'checkout'])->name('customer.checkout');
     Route::post('/order-save', [CustomerController::class, 'order_save'])->name('customer.ordersave');
+    Route::post('/landing-order-save', [CustomerController::class, 'landing_order_save'])->name('landing.customer.ordersave');
     Route::get('/order-success/{id}', [CustomerController::class, 'order_success'])->name('customer.order_success');
 
    Route::get('/order-track', [CustomerController::class, 'order_track'])->name('customer.order_track');

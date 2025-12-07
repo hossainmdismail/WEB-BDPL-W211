@@ -295,145 +295,198 @@
             </div>
             <div class="row order_by">
             <div class="col-sm-5 cus-order-2">
-                <div class="checkout-shipping" id="order_form">
-                    <form action="{{route('customer.ordersave')}}" method="POST" data-parsley-validate="">
-                    @csrf
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="potro_font">আপনার ইনফরমেশন দিন  </h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group mb-3">
-                                        <label for="name">আপনার নাম লিখুন * </label>
-                                        <input type="text" id="name" class="form-control @error('name') is-invalid @enderror" name="name" value="{{old('name')}}" placeholder="নাম" required>
-                                        @error('name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+            <form action="{{ route('landing.customer.ordersave') }}" method="POST" data-parsley-validate="">
+                @csrf
+                    <div class="checkout-shipping" id="order_form">
+
+                            <!-- MUST HAVE Hidden Inputs -->
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="potro_font">আপনার ইনফরমেশন দিন</h5>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <!-- Name -->
+                                        <div class="col-sm-12">
+                                            <div class="form-group mb-3">
+                                                <label for="name">আপনার নাম *</label>
+                                                <input type="text" class="form-control" name="name" required placeholder="নাম">
+                                            </div>
+                                        </div>
+
+                                        <!-- Phone -->
+                                        <div class="col-sm-12">
+                                            <div class="form-group mb-3">
+                                                <label for="phone">আপনার মোবাইল *</label>
+                                                <input type="text" class="form-control" name="phone" minlength="11" maxlength="11" required placeholder="+৮৮ বাদে ১১ সংখ্যা">
+                                            </div>
+                                        </div>
+
+                                        <!-- Address -->
+                                        <div class="col-sm-12">
+                                            <div class="form-group mb-3">
+                                                <label for="address">আপনার ঠিকানা *</label>
+                                                <input type="text" class="form-control" name="address" required placeholder="জেলা, থানা, গ্রাম">
+                                            </div>
+                                        </div>
+
+                                        <!-- Area -->
+                                        <div class="col-sm-12">
+                                            <div class="form-group mb-3">
+                                                <label for="area">আপনার এরিয়া *</label>
+                                                <select class="form-control" name="area" required>
+                                                    @foreach($shippingcharge as $value)
+                                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit -->
+                                        <div class="col-sm-12">
+                                            <button type="submit" class="order_place">অর্ডার কনফার্ম করুন</button>
+                                        </div>
+
                                     </div>
                                 </div>
-                                <!-- col-end -->
-                                <div class="col-sm-12">
-                                    <div class="form-group mb-3">
-                                        <label for="phone">আপনার মোবাইল লিখুন *</label>
-                                        <input type="number" minlength="11" id="number" maxlength="11" pattern="0[0-9]+" title="please enter number only and 0 must first character" title="Please enter an 11-digit number." id="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{old('phone')}}" placeholder="+৮৮ বাদে ১১ সংখ্যা "  required>
-                                        @error('phone')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                            </div>
+                    {{-- <form action="{{route('customer.ordersave')}}" method="POST" data-parsley-validate="">
+                        @csrf
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="potro_font">আপনার ইনফরমেশন দিন  </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-3">
+                                            <label for="name">আপনার নাম লিখুন * </label>
+                                            <input type="text" id="name" class="form-control @error('name') is-invalid @enderror" name="name" value="{{old('name')}}" placeholder="নাম" required>
+                                            @error('name')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- col-end -->
-                                <div class="col-sm-12">
-                                    <div class="form-group mb-3">
-                                        <label for="address">আপনার ঠিকানা লিখুন   *</label>
-                                        <input type="address" id="address" class="form-control @error('address') is-invalid @enderror" placeholder="জেলা, থানা, গ্রাম " name="address" value="{{old('address')}}"  required>
-                                        @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                    <!-- col-end -->
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-3">
+                                            <label for="phone">আপনার মোবাইল লিখুন *</label>
+                                            <input type="number" minlength="11" id="number" maxlength="11" pattern="0[0-9]+" title="please enter number only and 0 must first character" title="Please enter an 11-digit number." id="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{old('phone')}}" placeholder="+৮৮ বাদে ১১ সংখ্যা "  required>
+                                            @error('phone')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group mb-3">
-                                        <label for="area">আপনার এরিয়া সিলেক্ট করুন  *</label>
-                                        <select type="area" id="area" class="form-control @error('area') is-invalid @enderror" name="area"   required>
-                                            @foreach($shippingcharge as $key=>$value)
-                                            <option value="{{$value->id}}">{{$value->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                    <!-- col-end -->
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-3">
+                                            <label for="address">আপনার ঠিকানা লিখুন   *</label>
+                                            <input type="address" id="address" class="form-control @error('address') is-invalid @enderror" placeholder="জেলা, থানা, গ্রাম " name="address" value="{{old('address')}}"  required>
+                                            @error('email')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- col-end -->
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <button class="order_place" type="submit">অর্ডার কন্ফার্ম করুন </button>
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-3">
+                                            <label for="area">আপনার এরিয়া সিলেক্ট করুন  *</label>
+                                            <select type="area" id="area" class="form-control @error('area') is-invalid @enderror" name="area"   required>
+                                                @foreach($shippingcharge as $key=>$value)
+                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('email')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <!-- col-end -->
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <button class="order_place" type="submit">অর্ডার কন্ফার্ম করুন </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- card end -->
+                    </form> --}}
                     </div>
-                    <!-- card end -->
-                </form>
                 </div>
-            </div>
-            <!-- col end -->
-            <div class="col-sm-7 cust-order-1">
-                <div class="cart_details">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="potro_font">পণ্যের বিবরণ </h5>
-                        </div>
-                        <div class="card-body cartlist  table-responsive">
-                            <table class="cart_table table table-bordered table-striped text-center mb-0">
-                                <thead>
-                                   <tr>
-                                      <th style="width: 20%;">ডিলিট</th>
-                                      <th style="width: 40%;">প্রোডাক্ট</th>
-                                      <th style="width: 20%;">পরিমাণ</th>
-                                      <th style="width: 20%;">মূল্য</th>
-                                     </tr>
-                                </thead>
-
-                                <tbody>
-                                    @foreach(Cart::instance('shopping')->content() as $value)
+                <!-- col end -->
+                <div class="col-sm-7 cust-order-1">
+                    <div class="cart_details">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="potro_font">পণ্যের বিবরণ </h5>
+                            </div>
+                            <div class="card-body cartlist  table-responsive">
+                                <table class="cart_table table table-bordered table-striped text-center mb-0">
+                                    <thead>
                                     <tr>
-                                        <td>
-                                            <a href="{{route('product',$value->options->slug)}}"><i class="fas fa-trash text-danger"></i></a>
-                                        </td>
-                                        <td class="text-left">
-                                             <a style="font-size: 14px;" href="{{route('product',$value->options->slug)}}"><img src="{{asset($value->options->image)}}" height="30" width="30"> {{Str::limit($value->name,20)}}</a>
-                                        </td>
-                                        <td width="15%" class="cart_qty">
-                                            <div class="qty-cart vcart-qty">
-                                                <div class="quantity">
-                                                    <button class="minus cart_decrement"  data-id="{{$value->rowId}}">-</button>
-                                                    <input type="text" value="{{$value->qty}}" readonly />
-                                                    <button class="plus  cart_increment" data-id="{{$value->rowId}}">+</button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>৳{{$value->price*$value->qty}}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                     <tr>
-                                      <th colspan="3" class="text-end px-4">মোট</th>
-                                      <td>
-                                       <span id="net_total"><span class="alinur">৳ </span><strong>{{$subtotal}}</strong></span>
-                                      </td>
-                                     </tr>
-                                     <tr>
-                                      <th colspan="3" class="text-end px-4">ডেলিভারি চার্জ</th>
-                                      <td>
-                                       <span id="cart_shipping_cost"><span class="alinur">৳ </span><strong>{{$shipping}}</strong></span>
-                                      </td>
-                                     </tr>
-                                     <tr>
-                                      <th colspan="3" class="text-end px-4">সর্বমোট</th>
-                                      <td>
-                                       <span id="grand_total"><span class="alinur">৳ </span><strong>{{$subtotal+$shipping}}</strong></span>
-                                      </td>
-                                     </tr>
-                                    </tfoot>
-                            </table>
+                                        <th style="width: 20%;">ডিলিট</th>
+                                        <th style="width: 40%;">প্রোডাক্ট</th>
+                                        <th style="width: 20%;">পরিমাণ</th>
+                                        <th style="width: 20%;">মূল্য</th>
+                                        </tr>
+                                    </thead>
 
+                                    <tbody>
+                                        @foreach(Cart::instance('shopping')->content() as $value)
+                                        <tr>
+                                            <td>
+                                                <a href="{{route('product',$value->options->slug)}}"><i class="fas fa-trash text-danger"></i></a>
+                                            </td>
+                                            <td class="text-left">
+                                                <a style="font-size: 14px;" href="{{route('product',$value->options->slug)}}"><img src="{{asset($value->options->image)}}" height="30" width="30"> {{Str::limit($value->name,20)}}</a>
+                                            </td>
+                                            <td width="15%" class="cart_qty">
+                                                <input type="number" name="quantity" value="{{$value->qty}}" />
+                                            </td>
+                                            <td>৳{{$value->price*$value->qty}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                        <th colspan="3" class="text-end px-4">মোট</th>
+                                        <td>
+                                        <span id="net_total"><span class="alinur">৳ </span><strong>{{$subtotal}}</strong></span>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <th colspan="3" class="text-end px-4">ডেলিভারি চার্জ</th>
+                                        <td>
+                                        <span id="cart_shipping_cost"><span class="alinur">৳ </span><strong>{{$shipping}}</strong></span>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <th colspan="3" class="text-end px-4">সর্বমোট</th>
+                                        <td>
+                                        <span id="grand_total"><span class="alinur">৳ </span><strong>{{$subtotal+$shipping}}</strong></span>
+                                        </td>
+                                        </tr>
+                                        </tfoot>
+                                </table>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- col end -->
+                <!-- col end -->
+            </form>
             </div>
                     </div>
                 </div>
